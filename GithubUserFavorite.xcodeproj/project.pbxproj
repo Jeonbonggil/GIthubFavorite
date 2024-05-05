@@ -8,7 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		44079CB62BE4951A00C79675 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 44079CB52BE4951A00C79675 /* AppDelegate.swift */; };
-		44079CBA2BE4951A00C79675 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 44079CB92BE4951A00C79675 /* ViewController.swift */; };
+		44079CBA2BE4951A00C79675 /* GitHubSearchVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 44079CB92BE4951A00C79675 /* GitHubSearchVC.swift */; };
 		44079CBD2BE4951A00C79675 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 44079CBB2BE4951A00C79675 /* Main.storyboard */; };
 		44079CC02BE4951A00C79675 /* GithubUserFavorite.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 44079CBE2BE4951A00C79675 /* GithubUserFavorite.xcdatamodeld */; };
 		44079CC22BE4951C00C79675 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 44079CC12BE4951C00C79675 /* Assets.xcassets */; };
@@ -22,6 +22,24 @@
 		44079CF12BE4971F00C79675 /* Kingfisher in Frameworks */ = {isa = PBXBuildFile; productRef = 44079CF02BE4971F00C79675 /* Kingfisher */; };
 		44079CF42BE4981100C79675 /* Alamofire in Frameworks */ = {isa = PBXBuildFile; productRef = 44079CF32BE4981100C79675 /* Alamofire */; };
 		44079CF72BE49B3800C79675 /* UIViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 44079CF62BE49B3800C79675 /* UIViewController.swift */; };
+		FC2A81462BE5136F000B3369 /* Item.swift in Sources */ = {isa = PBXBuildFile; fileRef = FC2A81442BE5136F000B3369 /* Item.swift */; };
+		FC2A81472BE5136F000B3369 /* UserInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = FC2A81452BE5136F000B3369 /* UserInfo.swift */; };
+		FC2A814D2BE52670000B3369 /* GitHubAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = FC2A814C2BE52670000B3369 /* GitHubAPI.swift */; };
+		FC2A814F2BE534C0000B3369 /* GitHubAPIManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = FC2A814E2BE534C0000B3369 /* GitHubAPIManager.swift */; };
+		FC752CC72BE62D3700B55347 /* RxCocoa in Frameworks */ = {isa = PBXBuildFile; productRef = FC752CC62BE62D3700B55347 /* RxCocoa */; };
+		FC752CC92BE62D3700B55347 /* RxRelay in Frameworks */ = {isa = PBXBuildFile; productRef = FC752CC82BE62D3700B55347 /* RxRelay */; };
+		FC752CCB2BE6322300B55347 /* UITableView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FC752CCA2BE6322300B55347 /* UITableView.swift */; };
+		FC752CCD2BE632B500B55347 /* View+AutoLayout.swift in Sources */ = {isa = PBXBuildFile; fileRef = FC752CCC2BE632B500B55347 /* View+AutoLayout.swift */; };
+		FC752CD02BE6333E00B55347 /* ProfileTableCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = FC752CCF2BE6333E00B55347 /* ProfileTableCell.swift */; };
+		FC752CD62BE633F300B55347 /* ProfileTableCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = FC752CD52BE633F300B55347 /* ProfileTableCell.xib */; };
+		FC752CD92BE639BD00B55347 /* GithubSearchViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = FC752CD82BE639BD00B55347 /* GithubSearchViewModel.swift */; };
+		FC752CDB2BE63A7D00B55347 /* SafeArray.swift in Sources */ = {isa = PBXBuildFile; fileRef = FC752CDA2BE63A7C00B55347 /* SafeArray.swift */; };
+		FC752CDD2BE6486000B55347 /* AlertController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FC752CDC2BE6486000B55347 /* AlertController.swift */; };
+		FC752CDF2BE6488500B55347 /* Application.swift in Sources */ = {isa = PBXBuildFile; fileRef = FC752CDE2BE6488500B55347 /* Application.swift */; };
+		FCA239642BE501D400FFE09E /* RxGesture in Frameworks */ = {isa = PBXBuildFile; productRef = FCA239632BE501D400FFE09E /* RxGesture */; };
+		FCA239672BE5030800FFE09E /* CommonFunc.swift in Sources */ = {isa = PBXBuildFile; fileRef = FCA239662BE5030800FFE09E /* CommonFunc.swift */; };
+		FCB2AA9D2BE74D5000E5C9BF /* PersistenceManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = FCB2AA9C2BE74D5000E5C9BF /* PersistenceManager.swift */; };
+		FCE301D52BE747F9008E1DF8 /* Favorites.swift in Sources */ = {isa = PBXBuildFile; fileRef = FCE301D42BE747F9008E1DF8 /* Favorites.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -44,7 +62,7 @@
 /* Begin PBXFileReference section */
 		44079CB22BE4951900C79675 /* GithubUserFavorite.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = GithubUserFavorite.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		44079CB52BE4951A00C79675 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
-		44079CB92BE4951A00C79675 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
+		44079CB92BE4951A00C79675 /* GitHubSearchVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GitHubSearchVC.swift; sourceTree = "<group>"; };
 		44079CBC2BE4951A00C79675 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		44079CBF2BE4951A00C79675 /* GithubUserFavorite.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = GithubUserFavorite.xcdatamodel; sourceTree = "<group>"; };
 		44079CC12BE4951C00C79675 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
@@ -56,6 +74,21 @@
 		44079CD92BE4951C00C79675 /* GithubUserFavoriteUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GithubUserFavoriteUITests.swift; sourceTree = "<group>"; };
 		44079CDB2BE4951C00C79675 /* GithubUserFavoriteUITestsLaunchTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GithubUserFavoriteUITestsLaunchTests.swift; sourceTree = "<group>"; };
 		44079CF62BE49B3800C79675 /* UIViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIViewController.swift; sourceTree = "<group>"; };
+		FC2A81442BE5136F000B3369 /* Item.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Item.swift; sourceTree = "<group>"; };
+		FC2A81452BE5136F000B3369 /* UserInfo.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UserInfo.swift; sourceTree = "<group>"; };
+		FC2A814C2BE52670000B3369 /* GitHubAPI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GitHubAPI.swift; sourceTree = "<group>"; };
+		FC2A814E2BE534C0000B3369 /* GitHubAPIManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GitHubAPIManager.swift; sourceTree = "<group>"; };
+		FC752CCA2BE6322300B55347 /* UITableView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UITableView.swift; sourceTree = "<group>"; };
+		FC752CCC2BE632B500B55347 /* View+AutoLayout.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "View+AutoLayout.swift"; sourceTree = "<group>"; };
+		FC752CCF2BE6333E00B55347 /* ProfileTableCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileTableCell.swift; sourceTree = "<group>"; };
+		FC752CD52BE633F300B55347 /* ProfileTableCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = ProfileTableCell.xib; sourceTree = "<group>"; };
+		FC752CD82BE639BD00B55347 /* GithubSearchViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GithubSearchViewModel.swift; sourceTree = "<group>"; };
+		FC752CDA2BE63A7C00B55347 /* SafeArray.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SafeArray.swift; sourceTree = "<group>"; };
+		FC752CDC2BE6486000B55347 /* AlertController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlertController.swift; sourceTree = "<group>"; };
+		FC752CDE2BE6488500B55347 /* Application.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Application.swift; sourceTree = "<group>"; };
+		FCA239662BE5030800FFE09E /* CommonFunc.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommonFunc.swift; sourceTree = "<group>"; };
+		FCB2AA9C2BE74D5000E5C9BF /* PersistenceManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PersistenceManager.swift; sourceTree = "<group>"; };
+		FCE301D42BE747F9008E1DF8 /* Favorites.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Favorites.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -66,7 +99,10 @@
 				44079CF42BE4981100C79675 /* Alamofire in Frameworks */,
 				44079CF12BE4971F00C79675 /* Kingfisher in Frameworks */,
 				44079CEE2BE496C800C79675 /* RxMoya in Frameworks */,
+				FC752CC72BE62D3700B55347 /* RxCocoa in Frameworks */,
 				44079CEA2BE496C800C79675 /* Moya in Frameworks */,
+				FCA239642BE501D400FFE09E /* RxGesture in Frameworks */,
+				FC752CC92BE62D3700B55347 /* RxRelay in Frameworks */,
 				44079CEC2BE496C800C79675 /* ReactiveMoya in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -91,7 +127,10 @@
 		44079CA92BE4951900C79675 = {
 			isa = PBXGroup;
 			children = (
-				44079CF52BE49B2B00C79675 /* Extension */,
+				FCA239652BE502FA00FFE09E /* Common */,
+				44079CF52BE49B2B00C79675 /* Extensions */,
+				FC63E0C92BE714BB00383CFA /* GithubSearch */,
+				FC2A814A2BE51455000B3369 /* Network */,
 				44079CB42BE4951900C79675 /* GithubUserFavorite */,
 				44079CCE2BE4951C00C79675 /* GithubUserFavoriteTests */,
 				44079CD82BE4951C00C79675 /* GithubUserFavoriteUITests */,
@@ -113,7 +152,6 @@
 			isa = PBXGroup;
 			children = (
 				44079CB52BE4951A00C79675 /* AppDelegate.swift */,
-				44079CB92BE4951A00C79675 /* ViewController.swift */,
 				44079CBB2BE4951A00C79675 /* Main.storyboard */,
 				44079CC12BE4951C00C79675 /* Assets.xcassets */,
 				44079CC32BE4951C00C79675 /* LaunchScreen.storyboard */,
@@ -140,12 +178,89 @@
 			path = GithubUserFavoriteUITests;
 			sourceTree = "<group>";
 		};
-		44079CF52BE49B2B00C79675 /* Extension */ = {
+		44079CF52BE49B2B00C79675 /* Extensions */ = {
 			isa = PBXGroup;
 			children = (
+				FC752CDE2BE6488500B55347 /* Application.swift */,
+				FC752CDC2BE6486000B55347 /* AlertController.swift */,
+				FC752CDA2BE63A7C00B55347 /* SafeArray.swift */,
 				44079CF62BE49B3800C79675 /* UIViewController.swift */,
+				FC752CCA2BE6322300B55347 /* UITableView.swift */,
+				FC752CCC2BE632B500B55347 /* View+AutoLayout.swift */,
 			);
-			path = Extension;
+			path = Extensions;
+			sourceTree = "<group>";
+		};
+		FC2A81432BE5087D000B3369 /* Model */ = {
+			isa = PBXGroup;
+			children = (
+				FC2A81442BE5136F000B3369 /* Item.swift */,
+				FC2A81452BE5136F000B3369 /* UserInfo.swift */,
+				FCE301D42BE747F9008E1DF8 /* Favorites.swift */,
+			);
+			path = Model;
+			sourceTree = "<group>";
+		};
+		FC2A814A2BE51455000B3369 /* Network */ = {
+			isa = PBXGroup;
+			children = (
+				FC2A814B2BE5265C000B3369 /* APIs */,
+				FCE301D12BE7457E008E1DF8 /* CoreData */,
+				FC2A81432BE5087D000B3369 /* Model */,
+			);
+			path = Network;
+			sourceTree = "<group>";
+		};
+		FC2A814B2BE5265C000B3369 /* APIs */ = {
+			isa = PBXGroup;
+			children = (
+				FC2A814C2BE52670000B3369 /* GitHubAPI.swift */,
+				FC2A814E2BE534C0000B3369 /* GitHubAPIManager.swift */,
+			);
+			path = APIs;
+			sourceTree = "<group>";
+		};
+		FC63E0C92BE714BB00383CFA /* GithubSearch */ = {
+			isa = PBXGroup;
+			children = (
+				FC752CCE2BE6331E00B55347 /* ProfileTableCell */,
+				FC752CD72BE6398900B55347 /* ViewModel */,
+				44079CB92BE4951A00C79675 /* GitHubSearchVC.swift */,
+			);
+			path = GithubSearch;
+			sourceTree = "<group>";
+		};
+		FC752CCE2BE6331E00B55347 /* ProfileTableCell */ = {
+			isa = PBXGroup;
+			children = (
+				FC752CCF2BE6333E00B55347 /* ProfileTableCell.swift */,
+				FC752CD52BE633F300B55347 /* ProfileTableCell.xib */,
+			);
+			path = ProfileTableCell;
+			sourceTree = "<group>";
+		};
+		FC752CD72BE6398900B55347 /* ViewModel */ = {
+			isa = PBXGroup;
+			children = (
+				FC752CD82BE639BD00B55347 /* GithubSearchViewModel.swift */,
+			);
+			path = ViewModel;
+			sourceTree = "<group>";
+		};
+		FCA239652BE502FA00FFE09E /* Common */ = {
+			isa = PBXGroup;
+			children = (
+				FCA239662BE5030800FFE09E /* CommonFunc.swift */,
+			);
+			path = Common;
+			sourceTree = "<group>";
+		};
+		FCE301D12BE7457E008E1DF8 /* CoreData */ = {
+			isa = PBXGroup;
+			children = (
+				FCB2AA9C2BE74D5000E5C9BF /* PersistenceManager.swift */,
+			);
+			path = CoreData;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -170,6 +285,9 @@
 				44079CED2BE496C800C79675 /* RxMoya */,
 				44079CF02BE4971F00C79675 /* Kingfisher */,
 				44079CF32BE4981100C79675 /* Alamofire */,
+				FCA239632BE501D400FFE09E /* RxGesture */,
+				FC752CC62BE62D3700B55347 /* RxCocoa */,
+				FC752CC82BE62D3700B55347 /* RxRelay */,
 			);
 			productName = GithubUserFavorite;
 			productReference = 44079CB22BE4951900C79675 /* GithubUserFavorite.app */;
@@ -247,6 +365,8 @@
 				44079CE82BE496C800C79675 /* XCRemoteSwiftPackageReference "Moya" */,
 				44079CEF2BE4971F00C79675 /* XCRemoteSwiftPackageReference "Kingfisher" */,
 				44079CF22BE4981100C79675 /* XCRemoteSwiftPackageReference "Alamofire" */,
+				FCA239622BE501D400FFE09E /* XCRemoteSwiftPackageReference "RxGesture" */,
+				FC752CC52BE62D3700B55347 /* XCRemoteSwiftPackageReference "RxSwift" */,
 			);
 			productRefGroup = 44079CB32BE4951900C79675 /* Products */;
 			projectDirPath = "";
@@ -266,6 +386,7 @@
 			files = (
 				44079CC52BE4951C00C79675 /* LaunchScreen.storyboard in Resources */,
 				44079CC22BE4951C00C79675 /* Assets.xcassets in Resources */,
+				FC752CD62BE633F300B55347 /* ProfileTableCell.xib in Resources */,
 				44079CBD2BE4951A00C79675 /* Main.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -291,10 +412,24 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				44079CBA2BE4951A00C79675 /* ViewController.swift in Sources */,
+				FC752CDF2BE6488500B55347 /* Application.swift in Sources */,
+				FCA239672BE5030800FFE09E /* CommonFunc.swift in Sources */,
+				FCE301D52BE747F9008E1DF8 /* Favorites.swift in Sources */,
+				FC752CDD2BE6486000B55347 /* AlertController.swift in Sources */,
+				44079CBA2BE4951A00C79675 /* GitHubSearchVC.swift in Sources */,
 				44079CC02BE4951A00C79675 /* GithubUserFavorite.xcdatamodeld in Sources */,
+				FC752CCD2BE632B500B55347 /* View+AutoLayout.swift in Sources */,
+				FC752CDB2BE63A7D00B55347 /* SafeArray.swift in Sources */,
 				44079CF72BE49B3800C79675 /* UIViewController.swift in Sources */,
+				FC2A81462BE5136F000B3369 /* Item.swift in Sources */,
+				FC2A81472BE5136F000B3369 /* UserInfo.swift in Sources */,
 				44079CB62BE4951A00C79675 /* AppDelegate.swift in Sources */,
+				FC752CCB2BE6322300B55347 /* UITableView.swift in Sources */,
+				FC2A814D2BE52670000B3369 /* GitHubAPI.swift in Sources */,
+				FC752CD02BE6333E00B55347 /* ProfileTableCell.swift in Sources */,
+				FCB2AA9D2BE74D5000E5C9BF /* PersistenceManager.swift in Sources */,
+				FC752CD92BE639BD00B55347 /* GithubSearchViewModel.swift in Sources */,
+				FC2A814F2BE534C0000B3369 /* GitHubAPIManager.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -667,6 +802,22 @@
 				minimumVersion = 5.9.1;
 			};
 		};
+		FC752CC52BE62D3700B55347 /* XCRemoteSwiftPackageReference "RxSwift" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/ReactiveX/RxSwift";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 6.7.1;
+			};
+		};
+		FCA239622BE501D400FFE09E /* XCRemoteSwiftPackageReference "RxGesture" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/RxSwiftCommunity/RxGesture";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 4.0.4;
+			};
+		};
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
@@ -694,6 +845,21 @@
 			isa = XCSwiftPackageProductDependency;
 			package = 44079CF22BE4981100C79675 /* XCRemoteSwiftPackageReference "Alamofire" */;
 			productName = Alamofire;
+		};
+		FC752CC62BE62D3700B55347 /* RxCocoa */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = FC752CC52BE62D3700B55347 /* XCRemoteSwiftPackageReference "RxSwift" */;
+			productName = RxCocoa;
+		};
+		FC752CC82BE62D3700B55347 /* RxRelay */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = FC752CC52BE62D3700B55347 /* XCRemoteSwiftPackageReference "RxSwift" */;
+			productName = RxRelay;
+		};
+		FCA239632BE501D400FFE09E /* RxGesture */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = FCA239622BE501D400FFE09E /* XCRemoteSwiftPackageReference "RxGesture" */;
+			productName = RxGesture;
 		};
 /* End XCSwiftPackageProductDependency section */
 
