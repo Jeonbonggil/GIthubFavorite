@@ -38,6 +38,7 @@ class PersistenceManager {
         let entity = NSEntityDescription.entity(forEntityName: "UserFavorite", in: context)
         if let entity {
             let managedObject = NSManagedObject(entity: entity, insertInto: context)
+            managedObject.setValue(favorite.initial, forKey: "initial")
             managedObject.setValue(favorite.username, forKey: "username")
             managedObject.setValue(favorite.avatarURL, forKey: "avatarURL")
             managedObject.setValue(favorite.isFavorite, forKey: "favorite")

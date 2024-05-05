@@ -2,7 +2,7 @@
 //  UIViewController.swift
 //  GithubUserFavorite
 //
-//  Created by ec-jbg on 2024/05/03.
+//  Created by Bonggil Jeon on 5/4/24.
 //
 
 import UIKit

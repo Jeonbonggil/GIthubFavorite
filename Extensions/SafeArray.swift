@@ -1,9 +1,8 @@
 //
 //  SafeArray.swift
-//  Sample
+//  GithubUserFavorite
 //
-//  Created by africa on 2020/07/16.
-//  Copyright © 2020 africa. All rights reserved.
+//  Created by Bonggil Jeon on 5/4/24.
 //
 
 extension Array {

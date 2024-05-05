@@ -4,6 +4,7 @@
         <attribute name="avatarURL" optional="YES" attributeType="String"/>
         <attribute name="favorite" optional="YES" attributeType="Boolean" usesScalarValueType="YES"/>
         <attribute name="htmlURL" optional="YES" attributeType="String"/>
+        <attribute name="initial" optional="YES" attributeType="String"/>
         <attribute name="username" optional="YES" attributeType="String"/>
     </entity>
 </model>

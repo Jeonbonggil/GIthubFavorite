@@ -11,6 +11,7 @@ import RxSwift
 import RxGesture
 
 final class ProfileTableCell: UITableViewCell, NibLoadable, ReusableView {
+    @IBOutlet weak var initialWord: UILabel!
     @IBOutlet weak var profileImage: UIImageView!
     @IBOutlet weak var userName: UILabel!
     @IBOutlet weak var favoriteImage: UIImageView! {
@@ -26,6 +27,7 @@ final class ProfileTableCell: UITableViewCell, NibLoadable, ReusableView {
                 .disposed(by: bag)
         }
     }
+    @IBOutlet var initialWordToProfileConst: NSLayoutConstraint!
     private var index: Int = 0
     private let bag = DisposeBag()
     var viewModel: GithubSearchViewModel = GithubSearchViewModel()
@@ -39,8 +41,9 @@ final class ProfileTableCell: UITableViewCell, NibLoadable, ReusableView {
     }
     /// 검색 API Cell 설정
     func configureCellToSearchAPI(at index: Int) {
-//        guard let viewModel else { return }
         self.index = index
+        initialWord.text = ""
+        initialWordToProfileConst.isActive = false
         profileImage.kf.setImage(with: URL(string: viewModel.getUserProfile(at: index)))
         userName.text = viewModel.getUserName(at: index)
         favoriteImage.image = viewModel.getUserFavorite(at: index) ?
@@ -49,7 +52,8 @@ final class ProfileTableCell: UITableViewCell, NibLoadable, ReusableView {
     }
     /// 로컬 즐겨찾기 Cell 설정
     func configureCellToLocal(at index: Int) {
-//        guard let viewModel else { return }
+        initialWord.text = viewModel.makeInitialWord(at: index)
+        initialWordToProfileConst.isActive = true
         self.index = index
         profileImage.kf.setImage(with: URL(string: viewModel.getFavoriteUserProfile(at: index)))
         userName.text = viewModel.getFavoriteUserName(at: index)

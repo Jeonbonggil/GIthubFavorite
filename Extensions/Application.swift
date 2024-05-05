@@ -1,9 +1,8 @@
 //
 //  Application.swift
-//  Sample
+//  GithubUserSearch
 //
-//  Created by africa on 2020/08/05.
-//  Copyright © 2020 africa. All rights reserved.
+//  Created by Bonggil Jeon on 5/4/24.
 //
 
 import UIKit

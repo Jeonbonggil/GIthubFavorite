@@ -29,6 +29,7 @@ class GithubSearchViewModel {
     /// Persistence Manager
     private let persistenceManager = PersistenceManager.shared
     private let fetchRequest: NSFetchRequest<UserFavorites> = UserFavorites.fetchRequest()
+    /// API 검색 Parameter
     var userParams: UserParameters
     /// API 검색 리스트
     var userInfo: UserInfo?
@@ -38,7 +39,7 @@ class GithubSearchViewModel {
     var searchType = BehaviorRelay<SearchType>(value: .api)
     /// Table 전체 Relaod
     var tableReload = BehaviorRelay<Void>(value: ())
-    
+    //MARK: - Initialize
     init() {
         userParams = UserParameters(name: "", page: 1, perPage: 30)
         userInfo = nil
@@ -104,6 +105,21 @@ extension GithubSearchViewModel {
         guard let items = userInfo?.items[safe: index] else { return false }
         return items.isFavorite
     }
+    /// 즐겨찾기 초성 만들기
+    func makeInitialWord(at index: Int) -> String {
+        if index == 0 {
+            return favoriteList[safe: index]?.username?.first?.uppercased() ?? ""
+        } else {
+            let preIndex = index - 1
+            let preWord = favoriteList[safe: preIndex]?.username?.first?.uppercased() ?? ""
+            let currentWord = favoriteList[safe: index]?.username?.first?.uppercased() ?? ""
+            if preWord == currentWord {
+                return ""
+            } else {
+                return currentWord
+            }
+        }
+    }
     /// 즐겨찾기 Toggle
     func toggleFavorite(at index: Int) {
         if searchType.value == .api {
@@ -125,6 +141,7 @@ extension GithubSearchViewModel {
     func saveFavoriteData(at index: Int) {
         guard let item = userInfo?.items[safe: index] else { return }
         let model = Favorites(
+            initial: item.initial,
             username: item.username,
             avatarURL: item.avatarURL,
             htmlURL: item.htmlURL,

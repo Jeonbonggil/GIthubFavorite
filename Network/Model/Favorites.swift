@@ -8,6 +8,7 @@
 import Foundation
 
 struct Favorites {
+    var initial: String
     var username: String
     var avatarURL: String
     var htmlURL: String

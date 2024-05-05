@@ -1,8 +1,8 @@
 //
 //  UIView+AutoLayout.swift
-//  lotteDfs-ios
+//  GithubUserFavorite
 //
-//  Created by DirectionSoft on 2020/11/03.
+//  Created by Bonggil Jeon on 5/4/24.
 //
 
 import UIKit
