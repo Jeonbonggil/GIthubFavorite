@@ -38,8 +38,6 @@ class GithubSearchViewModel {
     var searchType = BehaviorRelay<SearchType>(value: .api)
     /// Table 전체 Relaod
     var tableReload = BehaviorRelay<Void>(value: ())
-    /// Table 특정 Row Relaod
-    var tableReloadRows = BehaviorRelay<Int>(value: 0)
     
     init() {
         userParams = UserParameters(name: "", page: 1, perPage: 30)
@@ -61,6 +59,7 @@ extension GithubSearchViewModel {
             switch result {
             case let .success(response):
                 userInfo = response
+                fetchFavoriteData()
                 completion(.success(response))
             case let .failure(error):
                 completion(.failure(error))
@@ -110,45 +109,20 @@ extension GithubSearchViewModel {
         if searchType.value == .api {
             guard var items = userInfo?.items[safe: index] else { return }
             items.isFavorite.toggle()
-            userInfo?.items[index].isFavorite = items.isFavorite
             if items.isFavorite {
-                addFavorite(at: index)
+                userInfo?.items[index].isFavorite = items.isFavorite
+                saveFavoriteData(at: index)
             } else {
-                removeFavorite()
+                removeFavorite(at: index)
             }
-            tableReloadRows.accept(index)
         }
         if searchType.value == .local {
             removeFavorite(at: index)
-            tableReload.accept(())
         }
-    }
-    /// 즐겨찾기 추가
-    private func addFavorite(at index: Int) {
-        saveFavoriteData(at: index)
-    }
-    /// 즐겨찾기 삭제
-    private func removeFavorite(at index: Int = 0) {
-        if searchType.value == .api {
-            favoriteList.removeAll { $0.favorite }
-        }
-        if searchType.value == .local {
-            let fetchResult = persistenceManager.fetch(request: fetchRequest)
-            if let foundIndex = fetchResult.firstIndex(where: {
-                $0.username == favoriteList[index].username
-            }) {
-                userInfo?.items[foundIndex].isFavorite = false
-                persistenceManager.deleteFavorite(object: fetchResult[foundIndex])
-            }
-        }
-    }
-    /// 즐겨찾기 검색
-    func searchFavoriteUsers(to username: String) -> Void {
-        //TODO: - 즐겨찾기 검색 구현
-//        userInfo = getFavoriteList(userID)
+        tableReload.accept(())
     }
     /// 즐겨찾기 저장 in core data
-    func saveFavoriteData(at index: Int = 0) {
+    func saveFavoriteData(at index: Int) {
         guard let item = userInfo?.items[safe: index] else { return }
         let model = Favorites(
             username: item.username,
@@ -157,11 +131,50 @@ extension GithubSearchViewModel {
             isFavorite: item.isFavorite
         )
         persistenceManager.saveFavorite(favorite: model)
-        print("즐겨찾기 저장 in core data")
+        fetchFavoriteData()
     }
-    /// 즐겨찾기 조회 in core data
+    /// 즐겨찾기 삭제
+    private func removeFavorite(at index: Int) {
+        let fetchResult = persistenceManager.fetch(request: fetchRequest)
+        if searchType.value == .api {
+            userInfo?.items[index].isFavorite = false
+            if let foundIndex = fetchResult.firstIndex(where: {
+                $0.username == userInfo?.items[safe: index]?.username
+            }) {
+                persistenceManager.deleteFavorite(object: fetchResult[foundIndex])
+            }
+        }
+        if searchType.value == .local {
+            if let foundIndex = userInfo?.items.firstIndex(where: {
+                $0.username == favoriteList[index].username
+            }) {
+                userInfo?.items[foundIndex].isFavorite = false
+            }
+            if let foundIndex = fetchResult.firstIndex(where: {
+                $0.username == favoriteList[index].username
+            }) {
+                persistenceManager.deleteFavorite(object: fetchResult[foundIndex])
+            }
+        }
+        fetchFavoriteData()
+    }
+    /// 즐겨찾기 조회 및 정렬 in core data
     func fetchFavoriteData() {
         let favorites = persistenceManager.fetch(request: fetchRequest)
-        favoriteList = favorites
+        favoriteList = favorites.sorted {
+            $0.username?.localizedCaseInsensitiveCompare($1.username ?? "") == .orderedAscending
+        }
+        if searchType.value == .api {
+            userInfo?.items.enumerated().forEach { i, item in
+                if let _ = favorites.firstIndex(where: { $0.username == item.username }) {
+                    userInfo?.items[i].isFavorite = true
+                }
+            }
+        }
+    }
+    /// 즐겨찾기 검색
+    func searchFavoriteUsers(to username: String) -> Void {
+        //TODO: - 즐겨찾기 검색 구현
+        print("즐겨찾기 검색: \(username)")
     }
 }

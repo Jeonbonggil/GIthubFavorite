@@ -96,20 +96,6 @@ final class GitHubSearchVC: UIViewController, UITextFieldDelegate {
             .disposed(by: bag)
         
         viewModel
-            .tableReloadRows
-            .skip(1)
-            .observe(on: MainScheduler.instance)
-            .subscribe { [weak self] index in
-                DispatchQueue.main.async {
-                    self?.profileTableView.reloadRows(
-                        at: [IndexPath(row: index, section: 0)],
-                        with: .none
-                    )
-                }
-            }
-            .disposed(by: bag)
-        
-        viewModel
             .searchType
             .skip(1)
             .observe(on: MainScheduler.instance)
@@ -127,16 +113,22 @@ final class GitHubSearchVC: UIViewController, UITextFieldDelegate {
                     return
                 }
                 viewModel.userParams = UserParameters(name: text, page: 1, perPage: 30)
-                switch viewModel.searchType.value {
-                case .api:
-                    viewModel.searchUsers(param: viewModel.userParams) { [weak self] _ in
-                        self?.viewModel.tableReload.accept(())
-                    }
-                case .local:
-                    viewModel.searchFavoriteUsers(to: text)
-                    viewModel.tableReload.accept(())
+                guard case .api = viewModel.searchType.value else { return }
+                viewModel.searchUsers(param: viewModel.userParams) { [weak self] _ in
+                    self?.viewModel.tableReload.accept(())
                 }
                 textField.resignFirstResponder()
+            }
+            .disposed(by: bag)
+        
+        textField.rx
+            .controlEvent(.editingChanged)
+            .throttle(.milliseconds(300), scheduler: MainScheduler.instance)
+            .subscribe { [weak self] _ in
+                guard let self, let text = textField.text,
+                      case .local = viewModel.searchType.value else { return }
+                viewModel.searchFavoriteUsers(to: text)
+                viewModel.tableReload.accept(())
             }
             .disposed(by: bag)
     }

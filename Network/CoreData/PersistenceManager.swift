@@ -54,7 +54,7 @@ class PersistenceManager {
     func deleteFavorite(object: NSManagedObject) -> Bool {
         context.delete(object)
         do {
-            try self.context.save()
+            try context.save()
             return true
         } catch {
             return false

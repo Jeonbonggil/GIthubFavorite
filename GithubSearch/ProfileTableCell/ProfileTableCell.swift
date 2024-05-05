@@ -21,14 +21,14 @@ final class ProfileTableCell: UITableViewCell, NibLoadable, ReusableView {
                 .when(.recognized)
                 .subscribe { [weak self] _ in
                     guard let self else { return }
-                    viewModel?.toggleFavorite(at: index)
+                    viewModel.toggleFavorite(at: index)
                 }
                 .disposed(by: bag)
         }
     }
     private var index: Int = 0
     private let bag = DisposeBag()
-    weak var viewModel: GithubSearchViewModel?
+    var viewModel: GithubSearchViewModel = GithubSearchViewModel()
     
     override func awakeFromNib() {
         super.awakeFromNib()
@@ -39,7 +39,7 @@ final class ProfileTableCell: UITableViewCell, NibLoadable, ReusableView {
     }
     /// 검색 API Cell 설정
     func configureCellToSearchAPI(at index: Int) {
-        guard let viewModel else { return }
+//        guard let viewModel else { return }
         self.index = index
         profileImage.kf.setImage(with: URL(string: viewModel.getUserProfile(at: index)))
         userName.text = viewModel.getUserName(at: index)
@@ -49,7 +49,7 @@ final class ProfileTableCell: UITableViewCell, NibLoadable, ReusableView {
     }
     /// 로컬 즐겨찾기 Cell 설정
     func configureCellToLocal(at index: Int) {
-        guard let viewModel else { return }
+//        guard let viewModel else { return }
         self.index = index
         profileImage.kf.setImage(with: URL(string: viewModel.getFavoriteUserProfile(at: index)))
         userName.text = viewModel.getFavoriteUserName(at: index)
