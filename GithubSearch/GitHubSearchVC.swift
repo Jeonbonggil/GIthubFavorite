@@ -90,6 +90,10 @@ final class GitHubSearchVC: UIViewController, UITextFieldDelegate {
     override func viewDidLoad() {
         super.viewDidLoad()
         bindRx()
+        makeNoResultView()
+    }
+    
+    private func makeNoResultView() {
         view.addSubview(noSearchResultView)
         noSearchResultView.snp.makeConstraints {
             $0.edges.equalTo(profileTableView)
