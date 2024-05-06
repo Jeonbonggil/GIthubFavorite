@@ -8,6 +8,7 @@
 import UIKit
 import RxSwift
 import RxGesture
+import SnapKit
 
 final class GitHubSearchVC: UIViewController, UITextFieldDelegate {
     @IBOutlet weak var APIButtonView: UIView! {
@@ -48,6 +49,7 @@ final class GitHubSearchVC: UIViewController, UITextFieldDelegate {
                     ) { [weak self] in
                         self?.view.layoutIfNeeded()
                     } completion: { [weak self] _ in
+                        self?.textField.text = ""
                         self?.viewModel.searchType.accept(.local)
                     }
                 }
@@ -67,12 +69,31 @@ final class GitHubSearchVC: UIViewController, UITextFieldDelegate {
             profileTableView.register(ProfileTableCell.self)
         }
     }
+    private lazy var noSearchResultView = {
+        let view = UIView()
+        view.backgroundColor = .white
+        let label = UILabel()
+        label.text = "검색 결과가 없습니다."
+        label.font = .systemFont(ofSize: 20)
+        label.textColor = .black
+        label.textAlignment = .center
+        view.addSubview(label)
+        label.snp.makeConstraints {
+            $0.center.equalToSuperview()
+        }
+        view.isHidden = true
+        return view
+    }()
     private let bag = DisposeBag()
     private var viewModel = GithubSearchViewModel()
     
     override func viewDidLoad() {
         super.viewDidLoad()
         bindRx()
+        view.addSubview(noSearchResultView)
+        noSearchResultView.snp.makeConstraints {
+            $0.edges.equalTo(profileTableView)
+        }
     }
     
     private func bindRx() {
@@ -87,8 +108,8 @@ final class GitHubSearchVC: UIViewController, UITextFieldDelegate {
         viewModel
             .tableReload
             .skip(1)
-            .observe(on: MainScheduler.instance)
-            .subscribe { [weak self] _ in
+            .asDriver(onErrorJustReturn: ())
+            .drive { [weak self] _ in
                 DispatchQueue.main.async {
                     self?.profileTableView.reloadData()
                 }
@@ -98,8 +119,8 @@ final class GitHubSearchVC: UIViewController, UITextFieldDelegate {
         viewModel
             .searchType
             .skip(1)
-            .observe(on: MainScheduler.instance)
-            .subscribe { [weak self] searchType in
+            .asDriver(onErrorJustReturn: .api)
+            .drive { [weak self] searchType in
                 self?.viewModel.tableReload.accept(())
             }
             .disposed(by: bag)
@@ -115,7 +136,13 @@ final class GitHubSearchVC: UIViewController, UITextFieldDelegate {
                 viewModel.userParams = UserParameters(name: text, page: 1, perPage: 30)
                 guard case .api = viewModel.searchType.value else { return }
                 viewModel.searchUsers(param: viewModel.userParams) { [weak self] _ in
-                    self?.viewModel.tableReload.accept(())
+                    guard let self else { return }
+                    viewModel.tableReload.accept(())
+                    if !text.isEmpty, viewModel.getUserCount() == 0 {
+                        noSearchResultView.isHidden = false
+                    } else {
+                        noSearchResultView.isHidden = true
+                    }
                 }
                 textField.resignFirstResponder()
             }
@@ -129,6 +156,11 @@ final class GitHubSearchVC: UIViewController, UITextFieldDelegate {
                       case .local = viewModel.searchType.value else { return }
                 viewModel.searchFavoriteUsers(to: text)
                 viewModel.tableReload.accept(())
+                if !text.isEmpty, viewModel.getSearchFavoriteCount() == 0 {
+                    noSearchResultView.isHidden = false
+                } else {
+                    noSearchResultView.isHidden = true
+                }
             }
             .disposed(by: bag)
     }

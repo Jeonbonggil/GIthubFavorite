@@ -223,11 +223,12 @@ extension GithubSearchViewModel {
     func getSearchFavoriteUserURL(at index: Int) -> String {
         return searchFavoriteList[safe: index]?.htmlURL ?? ""
     }
-    /// 즐겨찾기 검색 사용자 Toggle
-    func toggleSearchFavorite(at index: Int) {
+    /// 즐겨찾기 검색 후 즐겨찾기 삭제
+    func removeSearchFavorite(at index: Int) {
         guard let item = searchFavoriteList[safe: index] else { return }
         if let foundIndex = favoriteList.firstIndex(where: { $0.username == item.username }) {
             removeFavorite(at: foundIndex)
         }
+        tableReload.accept(())
     }
 }

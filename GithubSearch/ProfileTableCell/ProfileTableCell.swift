@@ -22,7 +22,11 @@ final class ProfileTableCell: UITableViewCell, NibLoadable, ReusableView {
                 .when(.recognized)
                 .subscribe { [weak self] _ in
                     guard let self else { return }
-                    viewModel.toggleFavorite(at: index)
+                    if viewModel.getSearchFavoriteCount() > 0 {
+                        viewModel.removeSearchFavorite(at: index)
+                    } else {
+                        viewModel.toggleFavorite(at: index)
+                    }
                 }
                 .disposed(by: bag)
         }
