@@ -142,6 +142,9 @@ extension GitHubSearchVC: UITableViewDataSource, UITableViewDelegate {
         case .api:
             return viewModel.getUserCount()
         case .local:
+            if viewModel.getSearchFavoriteCount() > 0 {
+                return viewModel.getSearchFavoriteCount()
+            }
             return viewModel.getLocalUserCount()
         }
     }
@@ -157,7 +160,11 @@ extension GitHubSearchVC: UITableViewDataSource, UITableViewDelegate {
         case .api:
             cell.configureCellToSearchAPI(at: indexPath.row)
         case .local:
-            cell.configureCellToLocal(at: indexPath.row)
+            if viewModel.getSearchFavoriteCount() > 0 {
+                cell.configureCellToLocalSearch(at: indexPath.row)
+            } else {
+                cell.configureCellToLocal(at: indexPath.row)
+            }
         }
         cell.selectionStyle = .none
         return cell

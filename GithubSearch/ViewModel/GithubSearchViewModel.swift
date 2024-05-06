@@ -23,7 +23,7 @@ enum SearchType: Int, Equatable {
     case local
 }
 
-class GithubSearchViewModel {
+final class GithubSearchViewModel {
     /// API Manager
     private let apiManager = GitHubAPIManager.shared
     /// Persistence Manager
@@ -34,12 +34,15 @@ class GithubSearchViewModel {
     /// API 검색 리스트
     var userInfo: UserInfo?
     /// 로컬 즐겨찾기 리스트
-    var favoriteList = [UserFavorites]()
+    private var favoriteList = [UserFavorites]()
+    private var searchFavoriteList = [UserFavorites]()
     /// 검색 Type
     var searchType = BehaviorRelay<SearchType>(value: .api)
     /// Table 전체 Relaod
     var tableReload = BehaviorRelay<Void>(value: ())
+    
     //MARK: - Initialize
+    
     init() {
         userParams = UserParameters(name: "", page: 1, perPage: 30)
         userInfo = nil
@@ -85,7 +88,7 @@ extension GithubSearchViewModel {
     }
 }
 
-//MARK: - Local Data
+//MARK: - Local 즐겨찾기 Data
 
 extension GithubSearchViewModel {
     /// 즐겨찾기 List Count
@@ -107,12 +110,16 @@ extension GithubSearchViewModel {
     }
     /// 즐겨찾기 초성 만들기
     func makeInitialWord(at index: Int) -> String {
+        var searchList = favoriteList
+        if getSearchFavoriteCount() > 0 {
+            searchList = searchFavoriteList
+        }
         if index == 0 {
-            return favoriteList[safe: index]?.username?.first?.uppercased() ?? ""
+            return searchList[safe: index]?.username?.first?.uppercased() ?? ""
         } else {
             let preIndex = index - 1
-            let preWord = favoriteList[safe: preIndex]?.username?.first?.uppercased() ?? ""
-            let currentWord = favoriteList[safe: index]?.username?.first?.uppercased() ?? ""
+            let preWord = searchList[safe: preIndex]?.username?.first?.uppercased() ?? ""
+            let currentWord = searchList[safe: index]?.username?.first?.uppercased() ?? ""
             if preWord == currentWord {
                 return ""
             } else {
@@ -137,7 +144,7 @@ extension GithubSearchViewModel {
         }
         tableReload.accept(())
     }
-    /// 즐겨찾기 저장 in core data
+    /// 즐겨찾기 저장 in Core Data
     func saveFavoriteData(at index: Int) {
         guard let item = userInfo?.items[safe: index] else { return }
         let model = Favorites(
@@ -150,7 +157,7 @@ extension GithubSearchViewModel {
         persistenceManager.saveFavorite(favorite: model)
         fetchFavoriteData()
     }
-    /// 즐겨찾기 삭제
+    /// 즐겨찾기 삭제 in Core Data
     private func removeFavorite(at index: Int) {
         let fetchResult = persistenceManager.fetch(request: fetchRequest)
         if searchType.value == .api {
@@ -175,7 +182,7 @@ extension GithubSearchViewModel {
         }
         fetchFavoriteData()
     }
-    /// 즐겨찾기 조회 및 정렬 in core data
+    /// 즐겨찾기 리스트 갱신 및 정렬
     func fetchFavoriteData() {
         let favorites = persistenceManager.fetch(request: fetchRequest)
         favoriteList = favorites.sorted {
@@ -189,9 +196,38 @@ extension GithubSearchViewModel {
             }
         }
     }
+}
+
+//MARK: - 즐겨찾기 검색 Data
+
+extension GithubSearchViewModel {
     /// 즐겨찾기 검색
-    func searchFavoriteUsers(to username: String) -> Void {
-        //TODO: - 즐겨찾기 검색 구현
-        print("즐겨찾기 검색: \(username)")
+    func searchFavoriteUsers(to username: String) {
+        searchFavoriteList = favoriteList.filter {
+            $0.username?.lowercased().contains(username) == true
+        }
+    }
+    /// 즐겨찾기 검색 리스트 Count
+    func getSearchFavoriteCount() -> Int {
+        return searchFavoriteList.count
+    }
+    /// 즐겨찾기 검색 사용자 이름
+    func getSearchFavoriteUserName(at index: Int) -> String {
+        return searchFavoriteList[safe: index]?.username ?? ""
+    }
+    /// 즐겨찾기 검색 사용자 Profile Image URL
+    func getSearchFavoriteUserProfile(at index: Int) -> String {
+        return searchFavoriteList[safe: index]?.avatarURL ?? ""
+    }
+    /// 즐겨찾기 검색 사용자 URL
+    func getSearchFavoriteUserURL(at index: Int) -> String {
+        return searchFavoriteList[safe: index]?.htmlURL ?? ""
+    }
+    /// 즐겨찾기 검색 사용자 Toggle
+    func toggleSearchFavorite(at index: Int) {
+        guard let item = searchFavoriteList[safe: index] else { return }
+        if let foundIndex = favoriteList.firstIndex(where: { $0.username == item.username }) {
+            removeFavorite(at: foundIndex)
+        }
     }
 }

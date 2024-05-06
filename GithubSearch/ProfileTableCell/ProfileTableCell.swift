@@ -59,4 +59,13 @@ final class ProfileTableCell: UITableViewCell, NibLoadable, ReusableView {
         userName.text = viewModel.getFavoriteUserName(at: index)
         favoriteImage.image = UIImage(systemName: "star.fill")
     }
+    /// 로컬 즐겨찾기 검색 Cell 설정
+    func configureCellToLocalSearch(at index: Int) {
+        initialWord.text = viewModel.makeInitialWord(at: index)
+        initialWordToProfileConst.isActive = true
+        self.index = index
+        profileImage.kf.setImage(with: URL(string: viewModel.getSearchFavoriteUserProfile(at: index)))
+        userName.text = viewModel.getSearchFavoriteUserName(at: index)
+        favoriteImage.image = UIImage(systemName: "star.fill")
+    }
 }
