@@ -22,6 +22,7 @@
 		44079CF12BE4971F00C79675 /* Kingfisher in Frameworks */ = {isa = PBXBuildFile; productRef = 44079CF02BE4971F00C79675 /* Kingfisher */; };
 		44079CF42BE4981100C79675 /* Alamofire in Frameworks */ = {isa = PBXBuildFile; productRef = 44079CF32BE4981100C79675 /* Alamofire */; };
 		44079CF72BE49B3800C79675 /* UIViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 44079CF62BE49B3800C79675 /* UIViewController.swift */; };
+		448EF5B82BE9F2CD001381F3 /* UserURLWebViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 448EF5B72BE9F2CD001381F3 /* UserURLWebViewController.swift */; };
 		FC2A81462BE5136F000B3369 /* Item.swift in Sources */ = {isa = PBXBuildFile; fileRef = FC2A81442BE5136F000B3369 /* Item.swift */; };
 		FC2A81472BE5136F000B3369 /* UserInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = FC2A81452BE5136F000B3369 /* UserInfo.swift */; };
 		FC2A814D2BE52670000B3369 /* GitHubAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = FC2A814C2BE52670000B3369 /* GitHubAPI.swift */; };
@@ -75,6 +76,7 @@
 		44079CD92BE4951C00C79675 /* GithubUserFavoriteUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GithubUserFavoriteUITests.swift; sourceTree = "<group>"; };
 		44079CDB2BE4951C00C79675 /* GithubUserFavoriteUITestsLaunchTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GithubUserFavoriteUITestsLaunchTests.swift; sourceTree = "<group>"; };
 		44079CF62BE49B3800C79675 /* UIViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIViewController.swift; sourceTree = "<group>"; };
+		448EF5B72BE9F2CD001381F3 /* UserURLWebViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserURLWebViewController.swift; sourceTree = "<group>"; };
 		FC2A81442BE5136F000B3369 /* Item.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Item.swift; sourceTree = "<group>"; };
 		FC2A81452BE5136F000B3369 /* UserInfo.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UserInfo.swift; sourceTree = "<group>"; };
 		FC2A814C2BE52670000B3369 /* GitHubAPI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GitHubAPI.swift; sourceTree = "<group>"; };
@@ -129,6 +131,7 @@
 		44079CA92BE4951900C79675 = {
 			isa = PBXGroup;
 			children = (
+				448EF5B62BE9F2AA001381F3 /* WebView */,
 				FCA239652BE502FA00FFE09E /* Common */,
 				44079CF52BE49B2B00C79675 /* Extensions */,
 				FC63E0C92BE714BB00383CFA /* GithubSearch */,
@@ -191,6 +194,14 @@
 				FC752CCC2BE632B500B55347 /* View+AutoLayout.swift */,
 			);
 			path = Extensions;
+			sourceTree = "<group>";
+		};
+		448EF5B62BE9F2AA001381F3 /* WebView */ = {
+			isa = PBXGroup;
+			children = (
+				448EF5B72BE9F2CD001381F3 /* UserURLWebViewController.swift */,
+			);
+			path = WebView;
 			sourceTree = "<group>";
 		};
 		FC2A81432BE5087D000B3369 /* Model */ = {
@@ -421,6 +432,7 @@
 				FCE301D52BE747F9008E1DF8 /* Favorites.swift in Sources */,
 				FC752CDD2BE6486000B55347 /* AlertController.swift in Sources */,
 				44079CBA2BE4951A00C79675 /* GitHubSearchVC.swift in Sources */,
+				448EF5B82BE9F2CD001381F3 /* UserURLWebViewController.swift in Sources */,
 				44079CC02BE4951A00C79675 /* GithubUserFavorite.xcdatamodeld in Sources */,
 				FC752CCD2BE632B500B55347 /* View+AutoLayout.swift in Sources */,
 				FC752CDB2BE63A7D00B55347 /* SafeArray.swift in Sources */,

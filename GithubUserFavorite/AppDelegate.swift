@@ -24,4 +24,11 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 //        window?.makeKeyAndVisible()
         return true
     }
+    /// webview 이동
+    func gotoUrl(to url: String?, vc: UIViewController?) {
+        guard let url = url?.trimmingCharacters(in: .whitespacesAndNewlines),
+              !url.isEmpty, url.hasPrefix("http") else { return }
+        let controller = UserURLWebViewController(url: url)
+        vc?.present(controller, animated: true, completion: nil)
+    }
 }
