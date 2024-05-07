@@ -15,11 +15,11 @@ public struct UserParameters {
     var perPage: Int
 }
 
-public enum GitHubUsers {
+public enum GitHubAPI {
     case searchUsers(UserParameters)
 }
 
-extension GitHubUsers: TargetType {
+extension GitHubAPI: TargetType {
     public var baseURL: URL {
         return URL(string: "https://api.github.com")!
     }

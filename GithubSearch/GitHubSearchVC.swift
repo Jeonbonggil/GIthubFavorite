@@ -104,14 +104,6 @@ final class GitHubSearchVC: UIViewController, UITextFieldDelegate {
     }
     
     private func bindRx() {
-        view.rx
-            .tapGesture()
-            .when(.recognized)
-            .subscribe { [weak self] _ in
-                self?.textField.resignFirstResponder()
-            }
-            .disposed(by: bag)
-        
         viewModel
             .tableReload
             .skip(1)
@@ -146,10 +138,16 @@ final class GitHubSearchVC: UIViewController, UITextFieldDelegate {
                     viewModel.searchWordInAPI = text
                     viewModel.userParams = UserParameters(name: text, page: 1, perPage: 30)
                     guard case .api = viewModel.searchType.value else { return }
-                    viewModel.searchUsers(param: viewModel.userParams) { [weak self] _ in
+                    viewModel.searchUsers(param: viewModel.userParams) { [weak self] userInfo in
                         guard let self else { return }
                         viewModel.tableReload.accept(())
                         viewModel.noSearchResult.accept(text)
+                        let indexPath = NSIndexPath(row: NSNotFound, section: 0)
+                        profileTableView.scrollToRow(
+                            at: indexPath as IndexPath,
+                            at: .top,
+                            animated: false
+                        )
                     }
                 case .local:
                     viewModel.searchWordInLocal = text
@@ -157,6 +155,13 @@ final class GitHubSearchVC: UIViewController, UITextFieldDelegate {
                     viewModel.tableReload.accept(())
                     viewModel.noSearchResult.accept(text)
                 }
+            }
+            .disposed(by: bag)
+        
+        textField.rx
+            .controlEvent(.editingDidEndOnExit)
+            .subscribe { [weak self] _ in
+                self?.textField.resignFirstResponder()
             }
             .disposed(by: bag)
         
@@ -204,16 +209,17 @@ extension GitHubSearchVC: UITableViewDataSource, UITableViewDelegate {
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        let index = indexPath.row
         let cell = tableView.dequeueReusableCell(forIndexPath: indexPath) as ProfileTableCell
         cell.viewModel = viewModel
         switch viewModel.searchType.value {
         case .api:
-            cell.configureCellToSearchAPI(at: indexPath.row)
+            cell.configureCellToSearchAPI(at: index)
         case .local:
             if viewModel.getSearchFavoriteCount() > 0 {
-                cell.configureCellToLocalSearch(at: indexPath.row)
+                cell.configureCellToLocalSearch(at: index)
             } else {
-                cell.configureCellToLocal(at: indexPath.row)
+                cell.configureCellToLocal(at: index)
             }
         }
         cell.selectionStyle = .none
@@ -221,7 +227,6 @@ extension GitHubSearchVC: UITableViewDataSource, UITableViewDelegate {
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        print("didSelectRowAt: \(indexPath.row)")
     }
     
     func scrollViewDidScroll(_ scrollView: UIScrollView) {

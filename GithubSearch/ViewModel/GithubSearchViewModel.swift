@@ -10,12 +10,7 @@ import RxCocoa
 import RxSwift
 import CoreData
 
-enum SearchError: Error {
-    case invalidURL
-    case invalidResponse
-    case invalidData
-    case decodeError
-}
+
 
 /// 검색 타입
 enum SearchType: Int, Equatable {
@@ -62,17 +57,22 @@ extension GithubSearchViewModel {
     /// User 검색 API
     func searchUsers(
         param: UserParameters,
-        completion: @escaping (Result<UserInfo, Error>) -> Void
+        loadMore: Bool = false,
+        completion: @escaping (UserInfo) -> Void
     ) {
-        GitHubAPIManager.searchUsers(param: param) { [weak self] result in
+        GitHubAPIManager.searchUsers(param: param) { [weak self] userInfo in
             guard let self else { return }
-            switch result {
-            case let .success(response):
-                userInfo = response
-                fetchFavoriteData()
-                completion(.success(response))
-            case let .failure(error):
-                completion(.failure(error))
+            if loadMore {
+                self.userInfo?.items.append(contentsOf: userInfo.items)
+            } else {
+                self.userInfo = userInfo
+            }
+            fetchFavoriteData()
+            completion(userInfo)
+        } onFailure: { error in
+            print(error.localizedDescription)
+        }
+    }
             }
         }
     }
@@ -108,6 +108,10 @@ extension GithubSearchViewModel {
     /// 즐겨찾기 사용자 Profile Image URL
     func getFavoriteUserProfile(at index: Int) -> String {
         return favoriteList[safe: index]?.avatarURL ?? ""
+    }
+    /// 즐겨찾기 사용자 URL
+    func getFavoriteUserURL(at index: Int) -> String {
+        return favoriteList[safe: index]?.htmlURL ?? ""
     }
     /// 즐겨찾기 여부
     func getUserFavorite(at index: Int) -> Bool {
