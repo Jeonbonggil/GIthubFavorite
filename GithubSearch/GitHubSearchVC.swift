@@ -237,16 +237,18 @@ extension GitHubSearchVC: UITableViewDataSource, UITableViewDelegate {
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         let index = indexPath.row
+        var urlString = ""
         switch viewModel.searchType.value {
         case .api:
-            appDelegate.gotoUrl(to: viewModel.getUserURL(at: index), vc: self)
+            urlString = viewModel.getUserURL(at: index)
         case .local:
             if viewModel.getSearchFavoriteCount() > 0 {
-                appDelegate.gotoUrl(to: viewModel.getSearchFavoriteUserURL(at: index), vc: self)
+                urlString = viewModel.getSearchFavoriteUserURL(at: index)
             } else {
-                appDelegate.gotoUrl(to: viewModel.getFavoriteUserURL(at: index), vc: self)
+                urlString = viewModel.getFavoriteUserURL(at: index)
             }
         }
+        appDelegate.gotoUrl(to: urlString, vc: self)
     }
     
     func scrollViewDidScroll(_ scrollView: UIScrollView) {
