@@ -41,7 +41,7 @@ final class ProfileTableCell: UITableViewCell, NibLoadable, ReusableView {
         profileImage.layer.cornerRadius = profileImage.frame.width / 2
         profileImage.layer.masksToBounds = true
         profileImage.layer.borderWidth = 1
-        profileImage.layer.borderColor = UIColor.black.cgColor
+        profileImage.layer.borderColor = UIColor(hexString: "000000").cgColor
     }
     /// 검색 API Cell 설정
     func configureCellToSearchAPI(at index: Int) {

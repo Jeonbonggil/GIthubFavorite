@@ -81,7 +81,7 @@ extension GithubSearchViewModel {
     }
     /// TableView 최하단 Scroll 시, 사용자 더 불러오기
     func loadUsersMore(to index: Int) {
-        if index >= (userInfo?.items.count ?? 0) - 8 {
+        if let userCount = userInfo?.items.count, index >= userCount - 8, userCount > 30 {
             _loading.accept(true)
             userParams.page += 1
             searchUsers(param: userParams, loadMore: true) { [weak self] _ in

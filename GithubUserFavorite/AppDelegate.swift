@@ -22,6 +22,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 //        window = UIWindow(frame: UIScreen.main.bounds)
 //        window?.rootViewController = ViewController()
 //        window?.makeKeyAndVisible()
+        sleep(1)
         return true
     }
     /// webview 이동
