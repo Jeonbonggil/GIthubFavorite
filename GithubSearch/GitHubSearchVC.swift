@@ -49,8 +49,9 @@ final class GitHubSearchVC: UIViewController, UITextFieldDelegate {
                     ) { [weak self] in
                         self?.view.layoutIfNeeded()
                     } completion: { [weak self] _ in
-                        self?.textField.text = ""
-                        self?.viewModel.searchType.accept(.local)
+                        guard let self else { return }
+                        textField.text = viewModel.searchWordForFavorite
+                        viewModel.searchType.accept(.local)
                     }
                 }
                 .disposed(by: bag)
@@ -132,23 +133,16 @@ final class GitHubSearchVC: UIViewController, UITextFieldDelegate {
         textField.rx
             .controlEvent(.editingDidEndOnExit)
             .subscribe { [weak self] _ in
-                guard let self, let text = textField.text else { return }
-                if text.isEmpty {
-                    UIAlertController.showMessage("검색어를 입력해주세요.")
-                    return
-                }
+                guard let self,
+                      let text = textField.text?.trimmingCharacters(in: .whitespacesAndNewlines),
+                      !text.isEmpty else { return }
                 viewModel.userParams = UserParameters(name: text, page: 1, perPage: 30)
                 guard case .api = viewModel.searchType.value else { return }
                 viewModel.searchUsers(param: viewModel.userParams) { [weak self] _ in
                     guard let self else { return }
                     viewModel.tableReload.accept(())
-                    if !text.isEmpty, viewModel.getUserCount() == 0 {
-                        noSearchResultView.isHidden = false
-                    } else {
-                        noSearchResultView.isHidden = true
-                    }
+                    viewModel.noSearchResult.accept(text)
                 }
-                textField.resignFirstResponder()
             }
             .disposed(by: bag)
         
@@ -156,11 +150,24 @@ final class GitHubSearchVC: UIViewController, UITextFieldDelegate {
             .controlEvent(.editingChanged)
             .throttle(.milliseconds(300), scheduler: MainScheduler.instance)
             .subscribe { [weak self] _ in
-                guard let self, let text = textField.text,
+                guard let self,
+                      let text = textField.text?.trimmingCharacters(in: .whitespacesAndNewlines),
                       case .local = viewModel.searchType.value else { return }
                 viewModel.searchFavoriteUsers(to: text)
                 viewModel.tableReload.accept(())
-                if !text.isEmpty, viewModel.getSearchFavoriteCount() == 0 {
+                viewModel.noSearchResult.accept(text)
+            }
+            .disposed(by: bag)
+        
+        viewModel
+            .noSearchResult
+            .asDriver(onErrorJustReturn: "")
+            .drive { [weak self] text in
+                guard let self else { return }
+                let listCount = viewModel.searchType.value == .api ?
+                viewModel.getUserCount() : viewModel.getSearchFavoriteCount()
+                viewModel.searchWordForFavorite = text
+                if !text.isEmpty, listCount == 0 {
                     noSearchResultView.isHidden = false
                 } else {
                     noSearchResultView.isHidden = true

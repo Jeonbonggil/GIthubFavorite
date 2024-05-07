@@ -35,9 +35,13 @@ final class GithubSearchViewModel {
     var userInfo: UserInfo?
     /// 로컬 즐겨찾기 리스트
     private var favoriteList = [UserFavorites]()
+    /// 즐겨찾기 검색 리스트
     private var searchFavoriteList = [UserFavorites]()
+    /// 즐겨찾기 검색어
+    var searchWordForFavorite = ""
     /// 검색 Type
     var searchType = BehaviorRelay<SearchType>(value: .api)
+    var noSearchResult = BehaviorRelay<String>(value: "")
     /// Table 전체 Relaod
     var tableReload = BehaviorRelay<Void>(value: ())
     
@@ -127,7 +131,7 @@ extension GithubSearchViewModel {
             }
         }
     }
-    /// 즐겨찾기 Toggle
+    /// 즐겨찾기 Toggle in API
     func toggleFavorite(at index: Int) {
         if searchType.value == .api {
             guard var items = userInfo?.items[safe: index] else { return }
@@ -228,7 +232,7 @@ extension GithubSearchViewModel {
         guard let item = searchFavoriteList[safe: index] else { return }
         if let foundIndex = favoriteList.firstIndex(where: { $0.username == item.username }) {
             removeFavorite(at: foundIndex)
+            tableReload.accept(())
         }
-        tableReload.accept(())
     }
 }
