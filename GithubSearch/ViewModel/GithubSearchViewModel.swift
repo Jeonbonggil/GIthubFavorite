@@ -24,6 +24,11 @@ final class GithubSearchViewModel {
     /// Persistence Manager
     private let persistenceManager = PersistenceManager.shared
     private let fetchRequest: NSFetchRequest<UserFavorites> = UserFavorites.fetchRequest()
+    /// Loading View 노출 처리
+    private let _loading = BehaviorRelay<Bool>(value: false)
+    var loading: Driver<Bool> {
+        return _loading.asDriver()
+    }
     /// API 검색 Parameter
     var userParams: UserParameters
     /// API 검색 리스트
@@ -69,15 +74,18 @@ extension GithubSearchViewModel {
             }
             fetchFavoriteData()
             completion(userInfo)
-        } onFailure: { error in
+        } onFailure: { [weak self] error in
             print(error.localizedDescription)
+            self?._loading.accept(false)
         }
     }
     /// TableView 최하단 Scroll 시, 사용자 더 불러오기
     func loadUsersMore(to index: Int) {
         if index >= (userInfo?.items.count ?? 0) - 8 {
+            _loading.accept(true)
             userParams.page += 1
             searchUsers(param: userParams, loadMore: true) { [weak self] _ in
+                self?._loading.accept(false)
                 self?.tableReload.accept(())
             }
         }

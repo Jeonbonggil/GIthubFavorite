@@ -22,6 +22,9 @@
 		44079CF12BE4971F00C79675 /* Kingfisher in Frameworks */ = {isa = PBXBuildFile; productRef = 44079CF02BE4971F00C79675 /* Kingfisher */; };
 		44079CF42BE4981100C79675 /* Alamofire in Frameworks */ = {isa = PBXBuildFile; productRef = 44079CF32BE4981100C79675 /* Alamofire */; };
 		44079CF72BE49B3800C79675 /* UIViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 44079CF62BE49B3800C79675 /* UIViewController.swift */; };
+		446621BE2BEA164D00E4E542 /* LoadingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 446621BD2BEA164D00E4E542 /* LoadingView.swift */; };
+		446621C02BEA16E800E4E542 /* Color.swift in Sources */ = {isa = PBXBuildFile; fileRef = 446621BF2BEA16E800E4E542 /* Color.swift */; };
+		446621C22BEA185F00E4E542 /* LoadingViewable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 446621C12BEA185F00E4E542 /* LoadingViewable.swift */; };
 		448EF5B82BE9F2CD001381F3 /* UserURLWebViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 448EF5B72BE9F2CD001381F3 /* UserURLWebViewController.swift */; };
 		FC2A81462BE5136F000B3369 /* Item.swift in Sources */ = {isa = PBXBuildFile; fileRef = FC2A81442BE5136F000B3369 /* Item.swift */; };
 		FC2A81472BE5136F000B3369 /* UserInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = FC2A81452BE5136F000B3369 /* UserInfo.swift */; };
@@ -76,6 +79,9 @@
 		44079CD92BE4951C00C79675 /* GithubUserFavoriteUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GithubUserFavoriteUITests.swift; sourceTree = "<group>"; };
 		44079CDB2BE4951C00C79675 /* GithubUserFavoriteUITestsLaunchTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GithubUserFavoriteUITestsLaunchTests.swift; sourceTree = "<group>"; };
 		44079CF62BE49B3800C79675 /* UIViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIViewController.swift; sourceTree = "<group>"; };
+		446621BD2BEA164D00E4E542 /* LoadingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoadingView.swift; sourceTree = "<group>"; };
+		446621BF2BEA16E800E4E542 /* Color.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Color.swift; sourceTree = "<group>"; };
+		446621C12BEA185F00E4E542 /* LoadingViewable.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LoadingViewable.swift; sourceTree = "<group>"; };
 		448EF5B72BE9F2CD001381F3 /* UserURLWebViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserURLWebViewController.swift; sourceTree = "<group>"; };
 		FC2A81442BE5136F000B3369 /* Item.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Item.swift; sourceTree = "<group>"; };
 		FC2A81452BE5136F000B3369 /* UserInfo.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UserInfo.swift; sourceTree = "<group>"; };
@@ -188,12 +194,22 @@
 			children = (
 				FC752CDE2BE6488500B55347 /* Application.swift */,
 				FC752CDC2BE6486000B55347 /* AlertController.swift */,
+				446621BF2BEA16E800E4E542 /* Color.swift */,
+				446621C12BEA185F00E4E542 /* LoadingViewable.swift */,
 				FC752CDA2BE63A7C00B55347 /* SafeArray.swift */,
 				44079CF62BE49B3800C79675 /* UIViewController.swift */,
 				FC752CCA2BE6322300B55347 /* UITableView.swift */,
 				FC752CCC2BE632B500B55347 /* View+AutoLayout.swift */,
 			);
 			path = Extensions;
+			sourceTree = "<group>";
+		};
+		446621BC2BEA163F00E4E542 /* LodingView */ = {
+			isa = PBXGroup;
+			children = (
+				446621BD2BEA164D00E4E542 /* LoadingView.swift */,
+			);
+			path = LodingView;
 			sourceTree = "<group>";
 		};
 		448EF5B62BE9F2AA001381F3 /* WebView */ = {
@@ -263,6 +279,7 @@
 		FCA239652BE502FA00FFE09E /* Common */ = {
 			isa = PBXGroup;
 			children = (
+				446621BC2BEA163F00E4E542 /* LodingView */,
 				FCA239662BE5030800FFE09E /* CommonFunc.swift */,
 			);
 			path = Common;
@@ -429,6 +446,8 @@
 			files = (
 				FC752CDF2BE6488500B55347 /* Application.swift in Sources */,
 				FCA239672BE5030800FFE09E /* CommonFunc.swift in Sources */,
+				446621C02BEA16E800E4E542 /* Color.swift in Sources */,
+				446621C22BEA185F00E4E542 /* LoadingViewable.swift in Sources */,
 				FCE301D52BE747F9008E1DF8 /* Favorites.swift in Sources */,
 				FC752CDD2BE6486000B55347 /* AlertController.swift in Sources */,
 				44079CBA2BE4951A00C79675 /* GitHubSearchVC.swift in Sources */,
@@ -440,6 +459,7 @@
 				FC2A81462BE5136F000B3369 /* Item.swift in Sources */,
 				FC2A81472BE5136F000B3369 /* UserInfo.swift in Sources */,
 				44079CB62BE4951A00C79675 /* AppDelegate.swift in Sources */,
+				446621BE2BEA164D00E4E542 /* LoadingView.swift in Sources */,
 				FC752CCB2BE6322300B55347 /* UITableView.swift in Sources */,
 				FC2A814D2BE52670000B3369 /* GitHubAPI.swift in Sources */,
 				FC752CD02BE6333E00B55347 /* ProfileTableCell.swift in Sources */,

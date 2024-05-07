@@ -105,6 +105,11 @@ final class GitHubSearchVC: UIViewController, UITextFieldDelegate {
     
     private func bindRx() {
         viewModel
+            .loading
+            .drive(view.rx.isAnimating)
+            .disposed(by: bag)
+        
+        viewModel
             .tableReload
             .skip(1)
             .asDriver(onErrorJustReturn: ())
@@ -140,6 +145,7 @@ final class GitHubSearchVC: UIViewController, UITextFieldDelegate {
                     guard case .api = viewModel.searchType.value else { return }
                     viewModel.searchUsers(param: viewModel.userParams) { [weak self] userInfo in
                         guard let self else { return }
+//                        viewModel.userInfo = userInfo
                         viewModel.tableReload.accept(())
                         viewModel.noSearchResult.accept(text)
                         let indexPath = NSIndexPath(row: NSNotFound, section: 0)
