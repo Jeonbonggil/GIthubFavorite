@@ -27,7 +27,9 @@ final class GitHubSearchVC: UIViewController, UITextFieldDelegate {
                     ) { [weak self] in
                         self?.view.layoutIfNeeded()
                     } completion: { [weak self] _ in
-                        self?.viewModel.searchType.accept(.api)
+                        guard let self else { return }
+                        textField.text = viewModel.searchWordInAPI
+                        viewModel.searchType.accept(.api)
                     }
                 }
                 .disposed(by: bag)
@@ -50,7 +52,7 @@ final class GitHubSearchVC: UIViewController, UITextFieldDelegate {
                         self?.view.layoutIfNeeded()
                     } completion: { [weak self] _ in
                         guard let self else { return }
-                        textField.text = viewModel.searchWordForFavorite
+                        textField.text = viewModel.searchWordInLocal
                         viewModel.searchType.accept(.local)
                     }
                 }
@@ -131,31 +133,30 @@ final class GitHubSearchVC: UIViewController, UITextFieldDelegate {
             .disposed(by: bag)
         
         textField.rx
-            .controlEvent(.editingDidEndOnExit)
-            .subscribe { [weak self] _ in
-                guard let self,
-                      let text = textField.text?.trimmingCharacters(in: .whitespacesAndNewlines),
-                      !text.isEmpty else { return }
-                viewModel.userParams = UserParameters(name: text, page: 1, perPage: 30)
-                guard case .api = viewModel.searchType.value else { return }
-                viewModel.searchUsers(param: viewModel.userParams) { [weak self] _ in
-                    guard let self else { return }
-                    viewModel.tableReload.accept(())
-                    viewModel.noSearchResult.accept(text)
-                }
-            }
-            .disposed(by: bag)
-        
-        textField.rx
             .controlEvent(.editingChanged)
             .throttle(.milliseconds(300), scheduler: MainScheduler.instance)
             .subscribe { [weak self] _ in
                 guard let self,
-                      let text = textField.text?.trimmingCharacters(in: .whitespacesAndNewlines),
-                      case .local = viewModel.searchType.value else { return }
-                viewModel.searchFavoriteUsers(to: text)
-                viewModel.tableReload.accept(())
-                viewModel.noSearchResult.accept(text)
+                      let text = textField.text?.trimmingCharacters(in: .whitespacesAndNewlines)
+                else {
+                    return
+                }
+                switch viewModel.searchType.value {
+                case .api:
+                    viewModel.searchWordInAPI = text
+                    viewModel.userParams = UserParameters(name: text, page: 1, perPage: 30)
+                    guard case .api = viewModel.searchType.value else { return }
+                    viewModel.searchUsers(param: viewModel.userParams) { [weak self] _ in
+                        guard let self else { return }
+                        viewModel.tableReload.accept(())
+                        viewModel.noSearchResult.accept(text)
+                    }
+                case .local:
+                    viewModel.searchWordInLocal = text
+                    viewModel.searchFavoriteUsers(to: text)
+                    viewModel.tableReload.accept(())
+                    viewModel.noSearchResult.accept(text)
+                }
             }
             .disposed(by: bag)
         
@@ -164,9 +165,15 @@ final class GitHubSearchVC: UIViewController, UITextFieldDelegate {
             .asDriver(onErrorJustReturn: "")
             .drive { [weak self] text in
                 guard let self else { return }
-                let listCount = viewModel.searchType.value == .api ?
-                viewModel.getUserCount() : viewModel.getSearchFavoriteCount()
-                viewModel.searchWordForFavorite = text
+                var listCount = 0
+                if viewModel.searchType.value == .api {
+                    viewModel.searchWordInAPI = text
+                    listCount = viewModel.getUserCount()
+                }
+                if viewModel.searchType.value == .local {
+                    viewModel.searchWordInLocal = text
+                    listCount = viewModel.getSearchFavoriteCount()
+                }
                 if !text.isEmpty, listCount == 0 {
                     noSearchResultView.isHidden = false
                 } else {

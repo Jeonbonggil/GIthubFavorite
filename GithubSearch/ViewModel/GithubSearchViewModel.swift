@@ -33,12 +33,14 @@ final class GithubSearchViewModel {
     var userParams: UserParameters
     /// API 검색 리스트
     var userInfo: UserInfo?
-    /// 로컬 즐겨찾기 리스트
+    /// API 검색어
+    var searchWordInAPI = ""
+    /// Local 즐겨찾기 리스트
     private var favoriteList = [UserFavorites]()
-    /// 즐겨찾기 검색 리스트
+    /// Local 즐겨찾기 검색 리스트
     private var searchFavoriteList = [UserFavorites]()
-    /// 즐겨찾기 검색어
-    var searchWordForFavorite = ""
+    /// Local 즐겨찾기 검색어
+    var searchWordInLocal = ""
     /// 검색 Type
     var searchType = BehaviorRelay<SearchType>(value: .api)
     var noSearchResult = BehaviorRelay<String>(value: "")
@@ -200,7 +202,7 @@ extension GithubSearchViewModel {
             }
         } 
         if searchType.value == .local, getSearchFavoriteCount() > 0 {
-            searchFavoriteUsers(to: searchWordForFavorite)
+            searchFavoriteUsers(to: searchWordInLocal)
         }
     }
 }
