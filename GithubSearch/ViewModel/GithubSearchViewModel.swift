@@ -46,6 +46,8 @@ final class GithubSearchViewModel {
     var noSearchResult = BehaviorRelay<String>(value: "")
     /// Table 전체 Relaod
     var tableReload = BehaviorRelay<Void>(value: ())
+    /// API Data Load More
+    var isLoadingData = false
     
     //MARK: - Initialize
     
@@ -80,14 +82,14 @@ extension GithubSearchViewModel {
         }
     }
     /// TableView 최하단 Scroll 시, 사용자 더 불러오기
-    func loadUsersMore(to index: Int) {
-        if let userCount = userInfo?.items.count, index >= userCount - 8, userCount > 30 {
-            _loading.accept(true)
-            userParams.page += 1
-            searchUsers(param: userParams, loadMore: true) { [weak self] _ in
-                self?._loading.accept(false)
-                self?.tableReload.accept(())
-            }
+    func loadMoreData() {
+        isLoadingData = true
+        userParams.page += 1
+        _loading.accept(true)
+        searchUsers(param: userParams, loadMore: true) { [weak self] _ in
+            self?._loading.accept(false)
+            self?.isLoadingData = false
+            self?.tableReload.accept(())
         }
     }
     /// API 검색 리스트 갯수

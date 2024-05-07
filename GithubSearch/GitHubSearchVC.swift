@@ -145,7 +145,6 @@ final class GitHubSearchVC: UIViewController, UITextFieldDelegate {
                     guard case .api = viewModel.searchType.value else { return }
                     viewModel.searchUsers(param: viewModel.userParams) { [weak self] userInfo in
                         guard let self else { return }
-//                        viewModel.userInfo = userInfo
                         viewModel.tableReload.accept(())
                         viewModel.noSearchResult.accept(text)
                         let indexPath = NSIndexPath(row: NSNotFound, section: 0)
@@ -252,6 +251,11 @@ extension GitHubSearchVC: UITableViewDataSource, UITableViewDelegate {
     }
     
     func scrollViewDidScroll(_ scrollView: UIScrollView) {
-        textField.resignFirstResponder()
+        let offsetY = scrollView.contentOffset.y
+        let contentHeight = scrollView.contentSize.height
+        let scrollViewHeight = scrollView.frame.size.height
+        if offsetY > contentHeight - scrollViewHeight && !viewModel.isLoadingData {
+            viewModel.loadMoreData()
+        }
     }
 }
