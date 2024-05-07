@@ -215,6 +215,9 @@ extension GitHubSearchVC: UITableViewDataSource, UITableViewDelegate {
         switch viewModel.searchType.value {
         case .api:
             cell.configureCellToSearchAPI(at: index)
+            DispatchQueue.main.asyncAfter(deadline: .now() + 0.3) { [weak self] in
+                self?.viewModel.loadUsersMore(to: index)
+            }
         case .local:
             if viewModel.getSearchFavoriteCount() > 0 {
                 cell.configureCellToLocalSearch(at: index)

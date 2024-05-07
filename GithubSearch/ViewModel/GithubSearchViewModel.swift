@@ -73,6 +73,12 @@ extension GithubSearchViewModel {
             print(error.localizedDescription)
         }
     }
+    /// TableView 최하단 Scroll 시, 사용자 더 불러오기
+    func loadUsersMore(to index: Int) {
+        if index >= (userInfo?.items.count ?? 0) - 8 {
+            userParams.page += 1
+            searchUsers(param: userParams, loadMore: true) { [weak self] _ in
+                self?.tableReload.accept(())
             }
         }
     }
