@@ -47,7 +47,8 @@ final public class GitHubAPIManager {
                 withJSONObject: dataAsJSON,
                 options: .prettyPrinted
             )
-            return String(data: prettyData, encoding: .utf8) ?? String(data: data, encoding: .utf8) ?? ""
+            return String(data: prettyData, encoding: .utf8) ?? 
+            String(data: data, encoding: .utf8) ?? ""
         } catch {
             return String(data: data, encoding: .utf8) ?? ""
         }

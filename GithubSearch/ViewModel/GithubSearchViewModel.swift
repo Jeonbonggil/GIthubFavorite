@@ -218,7 +218,8 @@ extension GithubSearchViewModel {
                     userInfo?.items[i].isFavorite = true
                 }
             }
-        } 
+            searchFavoriteUsers(to: searchWordInLocal)
+        }
         if searchType.value == .local, getSearchFavoriteCount() > 0 {
             searchFavoriteUsers(to: searchWordInLocal)
         }
