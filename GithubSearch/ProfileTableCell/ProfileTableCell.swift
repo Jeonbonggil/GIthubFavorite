@@ -22,7 +22,8 @@ final class ProfileTableCell: UITableViewCell, NibLoadable, ReusableView {
                 .when(.recognized)
                 .subscribe { [weak self] _ in
                     guard let self else { return }
-                    if viewModel.getSearchFavoriteCount() > 0 {
+                    if viewModel.getSearchFavoriteCount() > 0,
+                       viewModel.searchType.value == .local {
                         viewModel.removeSearchFavorite(at: index)
                     } else {
                         viewModel.toggleFavorite(at: index)
