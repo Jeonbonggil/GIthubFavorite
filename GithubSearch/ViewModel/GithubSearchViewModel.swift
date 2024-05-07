@@ -198,6 +198,9 @@ extension GithubSearchViewModel {
                     userInfo?.items[i].isFavorite = true
                 }
             }
+        } 
+        if searchType.value == .local, getSearchFavoriteCount() > 0 {
+            searchFavoriteUsers(to: searchWordForFavorite)
         }
     }
 }
