@@ -8,6 +8,13 @@
 import UIKit
 
 extension UIView {
+    var screen: UIScreen? {
+        guard let window = UIApplication.shared.connectedScenes.first as? UIWindowScene else {
+            return self.window?.windowScene?.screen
+        }
+        return window.screen
+    }
+    
     /// Constrain 4 edges of `self` to specified `view`.
     func edges(
         to view: UIView,

@@ -10,8 +10,6 @@ import RxCocoa
 import RxSwift
 import CoreData
 
-
-
 /// 검색 타입
 enum SearchType: Int, Equatable {
     case api

@@ -21,8 +21,9 @@ class UserURLWebViewController: UIViewController, WKNavigationDelegate, UIScroll
         webView.scrollView.delegate = self
         webView.uiDelegate = self
         webView.allowsBackForwardNavigationGestures = true
+        guard let bounds = screen()?.bounds else { return }
         webView = WKWebView(
-            frame: CGRect(x: 0, y: 0, width: Screen.width, height: Screen.height),
+            frame: CGRect(x: 0, y: 0, width: bounds.width, height: bounds.height),
             configuration: configuration
         )
         view.addSubview(webView)

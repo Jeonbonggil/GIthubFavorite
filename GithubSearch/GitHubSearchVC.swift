@@ -43,7 +43,7 @@ final class GitHubSearchVC: UIViewController, UITextFieldDelegate {
                 .when(.recognized)
                 .subscribe { [weak self] _ in
                     guard let self else { return }
-                    moveLineViewLeading.constant = Screen.width / 2
+                    moveLineViewLeading.constant = (screen()?.bounds.width ?? 0) / 2
                     UIView.animate(
                         withDuration: 0.2,
                         delay: 0,

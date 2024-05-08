@@ -70,7 +70,3 @@ extension GitHubAPI: TargetType {
         }
     }
 }
-
-public func url(_ route: TargetType) -> String {
-    route.baseURL.appendingPathComponent(route.path).absoluteString
-}
