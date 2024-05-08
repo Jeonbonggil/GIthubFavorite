@@ -64,8 +64,9 @@ extension GitHubAPI: TargetType {
     }
     public var sampleData: Data {
         switch self {
-        case .searchUsers(let name):
-            return "{\"login\": \"\(name)\", \"id\": 100}".data(using: .utf8)!
+        case .searchUsers(let param):
+            return "{\"q\": \"\(param.name)\", \"order\": \"asc\", \"page\": \(param.page), \"per_page\": \(param.perPage)}"
+                .data(using: .utf8)!
         }
     }
 }
