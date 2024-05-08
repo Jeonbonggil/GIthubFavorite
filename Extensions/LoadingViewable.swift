@@ -22,17 +22,11 @@ extension UIView: LoadingViewable {
 
 extension LoadingViewable where Self: UIView {
     func startAnimating() {
-        let loadingView = LoadingView(
-            frame: CGRect(x: 0, y: 0, width: Screen.width, height: Screen.height)
-        )
-        loadingView.show()
+        LoadingView.shared.show()
     }
     
     func stopAnimating() {
-        let loadingView = LoadingView(
-            frame: CGRect(x: 0, y: 0, width: Screen.width, height: Screen.height)
-        )
-        loadingView.hide()
+        LoadingView.shared.hide()
     }
 }
 

@@ -75,6 +75,7 @@ extension GithubSearchViewModel {
                 self.userInfo = userInfo
             }
             fetchFavoriteData()
+            _loading.accept(false)
             completion(userInfo)
         } onFailure: { [weak self] error in
             print(error.localizedDescription)
@@ -87,7 +88,6 @@ extension GithubSearchViewModel {
         userParams.page += 1
         _loading.accept(true)
         searchUsers(param: userParams, loadMore: true) { [weak self] _ in
-            self?._loading.accept(false)
             self?.isLoadingData = false
             self?.tableReload.accept(())
         }
