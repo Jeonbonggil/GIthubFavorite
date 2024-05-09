@@ -70,6 +70,7 @@ final class GitHubSearchVC: UIViewController, UITextFieldDelegate {
             profileTableView.delegate = self
             profileTableView.dataSource = self
             profileTableView.register(ProfileTableCell.self)
+            profileTableView.keyboardDismissMode = .onDrag
         }
     }
     private lazy var noSearchResultView = {
