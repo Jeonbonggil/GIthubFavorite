@@ -82,7 +82,7 @@ extension GithubSearchViewModel {
     }
     /// TableView 최하단 Scroll 시, 사용자 더 불러오기
     func loadMoreData() {
-        guard userInfo?.items.count ?? 0 > 25 else { return }
+        guard userInfo?.items.count ?? 0 > 25, searchType.value == .api else { return }
         isLoadingData = true
         userParams.page += 1
         _loading.accept(true)
