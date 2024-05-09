@@ -113,9 +113,9 @@ final class GitHubSearchVC: UIViewController, UITextFieldDelegate {
             .tableReload
             .skip(1)
             .asDriver(onErrorJustReturn: ())
-            .drive { [weak self] _ in
+            .drive { _ in
                 DispatchQueue.main.async {
-                    self?.profileTableView.reloadData()
+                    self.profileTableView.reloadData()
                 }
             }
             .disposed(by: bag)
