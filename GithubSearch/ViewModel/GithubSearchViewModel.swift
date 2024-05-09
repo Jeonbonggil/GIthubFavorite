@@ -60,11 +60,17 @@ final class GithubSearchViewModel {
 
 extension GithubSearchViewModel {
     /// User 검색 API
+    @MainActor
     func searchUsers(
         param: UserParameters,
         loadMore: Bool = false,
         completion: @escaping (UserInfo) -> Void
     ) {
+        /// async/await 연습 코드
+        Task {
+            let result = try await GitHubAPIManager.asyncSearch(param: param)
+            completion(result)
+        }
         GitHubAPIManager.searchUsers(param: param) { [weak self] userInfo in
             guard let self else { return }
             if loadMore {
@@ -81,6 +87,7 @@ extension GithubSearchViewModel {
         }
     }
     /// TableView 최하단 Scroll 시, 사용자 더 불러오기
+    @MainActor 
     func loadMoreData() {
         guard userInfo?.items.count ?? 0 > 25, searchType.value == .api else { return }
         isLoadingData = true

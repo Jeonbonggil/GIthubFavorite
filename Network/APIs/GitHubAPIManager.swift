@@ -65,10 +65,7 @@ final public class GitHubAPIManager {
             switch result {
             case let .success(response):
                 do {
-                    let responseObject = try JSONDecoder().decode(
-                        responseObject.self,
-                        from: response.data
-                    )
+                    let responseObject = try response.map(ResponseObject.self)
                     success(responseObject)
                 } catch {
                     failure(.decodeError)
@@ -87,6 +84,12 @@ final public class GitHubAPIManager {
             }
         }
     }
+    /// async/await 연습 코드
+    static func asyncSearch(param: UserParameters) async throws -> UserInfo {
+        let response = await shared.provider.request(.searchUsers(param))
+        let object = try response.get().map(UserInfo.self)
+        return object
+    }
 
     /// Github 사용자 검색 API
     static func searchUsers(
@@ -100,5 +103,15 @@ final public class GitHubAPIManager {
             onSuccess: success,
             onFailure: failure
         )
+    }
+}
+
+extension MoyaProvider {
+    func request(_ target: Target) async -> Result<Response, MoyaError> {
+        await withCheckedContinuation { continuation in
+            self.request(target) { result in
+                continuation.resume(returning: result)
+            }
+        }
     }
 }
