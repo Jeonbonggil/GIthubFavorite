@@ -9,9 +9,9 @@ import Foundation
 import Moya
 
 public enum APIError: Error {
-    case invalidResponse(message: String? = nil)
-    case underlyingFailure(_ description: String)
-    case decodeError
+    case requestError(_ description: String)
+    case serverError(_ description: String)
+    case decodeError(_ description: String)
     
     var localizedDescription: String {
         return message()
@@ -19,16 +19,13 @@ public enum APIError: Error {
     
     func message() -> String {
         switch self {
-        case .invalidResponse(let message):
-            if let message {
-                return message
-            }
-        case .decodeError:
-            return "decodeError"
-        case .underlyingFailure(let description):
-            return description
+        case .requestError(let description):
+            return "requestError: \(description)"
+        case .decodeError(let description):
+            return "decodeError: \(description)"
+        case .serverError(let description):
+            return "serverError: \(description)"
         }
-        return ""
     }
 }
 
@@ -52,64 +49,36 @@ final public class GitHubAPIManager {
             return String(data: data, encoding: .utf8) ?? ""
         }
     }
-    
-    func request<ResponseObject: Decodable>(
-        api: Any,
-        responseObject: ResponseObject.Type,
-        onSuccess success: @escaping (ResponseObject) -> Void,
-        onFailure failure: @escaping (APIError) -> Void,
-        retry: (() -> Void)? = nil
-    ) {
-        provider.request(api as! GitHubAPI) { [weak self] result in
-            guard let self else { return }
-            switch result {
-            case let .success(response):
-                do {
-                    let responseObject = try response.map(ResponseObject.self)
-                    success(responseObject)
-                } catch {
-                    failure(.decodeError)
-                }
-            case .failure(let error):
-                if retryCount < Self.maxRetryCount {
-                    retryCount += 1
-                    retry?()
-                } else {
-                    retryCount = 0
-                    if let desc = error.errorDescription {
-                        failure(.underlyingFailure(desc))
-                    }
-                }
-                failure(.invalidResponse(message: error.errorDescription))
+    /// API 요청
+    func requestAPI<ResponseObject: Decodable>(api: TargetType) async throws -> ResponseObject {
+        let result = await provider.request(api)
+        do {
+            let response = try result.get()
+            let object = try response.map(ResponseObject.self)
+            switch response.statusCode {
+            case 200...299:
+                return object
+            case 400...499:
+                throw APIError.requestError(response.description)
+            case 500...599:
+                throw APIError.serverError(response.description)
+            default:
+                throw APIError.decodeError(response.description)
             }
+        } catch {
+            throw APIError.decodeError(try result.get().description)
         }
     }
-    /// async/await 연습 코드
-    static func asyncSearch(param: UserParameters) async throws -> UserInfo {
-        let response = await shared.provider.request(.searchUsers(param))
-        let object = try response.get().map(UserInfo.self)
-        return object
-    }
-
     /// Github 사용자 검색 API
-    static func searchUsers(
-        param: UserParameters,
-        onSuccess success: @escaping (UserInfo) -> Void,
-        onFailure failure: @escaping failureClosure
-    ) {
-        shared.request(
-            api: GitHubAPI.searchUsers(param),
-            responseObject: UserInfo.self,
-            onSuccess: success,
-            onFailure: failure
-        )
+    static func searchUsers(param: UserParameters) async throws -> UserInfo {
+        try await shared.requestAPI(api: GitHubAPI.searchUsers(param))
     }
 }
 
 extension MoyaProvider {
-    func request(_ target: Target) async -> Result<Response, MoyaError> {
+    func request(_ target: TargetType) async -> Result<Response, MoyaError> {
         await withCheckedContinuation { continuation in
-            self.request(target) { result in
+            self.request(target as! Target) { result in
                 continuation.resume(returning: result)
             }
         }

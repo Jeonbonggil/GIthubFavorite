@@ -66,24 +66,21 @@ extension GithubSearchViewModel {
         loadMore: Bool = false,
         completion: @escaping (UserInfo) -> Void
     ) {
-        /// async/await 연습 코드
         Task {
-            let result = try await GitHubAPIManager.asyncSearch(param: param)
-            completion(result)
-        }
-        GitHubAPIManager.searchUsers(param: param) { [weak self] userInfo in
-            guard let self else { return }
-            if loadMore {
-                self.userInfo?.items.append(contentsOf: userInfo.items)
-            } else {
-                self.userInfo = userInfo
+            do {
+                let result = try await GitHubAPIManager.searchUsers(param: param)
+                if loadMore {
+                    userInfo?.items.append(contentsOf: result.items)
+                } else {
+                    userInfo = result
+                }
+                fetchFavoriteData()
+                _loading.accept(false)
+                completion(result)
+            } catch {
+                print(error.localizedDescription)
+                _loading.accept(false)
             }
-            fetchFavoriteData()
-            _loading.accept(false)
-            completion(userInfo)
-        } onFailure: { [weak self] error in
-            print(error.localizedDescription)
-            self?._loading.accept(false)
         }
     }
     /// TableView 최하단 Scroll 시, 사용자 더 불러오기
