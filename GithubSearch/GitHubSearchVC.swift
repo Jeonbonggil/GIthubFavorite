@@ -113,11 +113,10 @@ final class GitHubSearchVC: UIViewController, UITextFieldDelegate {
         viewModel
             .tableReload
             .skip(1)
+            .subscribe(on: MainScheduler.instance)
             .asDriver(onErrorJustReturn: ())
             .drive { _ in
-                DispatchQueue.main.async {
-                    self.profileTableView.reloadData()
-                }
+                self.profileTableView.reloadData()
             }
             .disposed(by: bag)
         
